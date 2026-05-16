@@ -23,6 +23,7 @@ public class MeController {
 
         final Jwt jwt = jwtAuth.getToken();
 
+        final String username = jwt.getClaimAsString(StandardClaimNames.PREFERRED_USERNAME);
         final String email = jwt.getClaimAsString(StandardClaimNames.EMAIL);
 
         final List<String> roles = jwtAuth.getAuthorities().stream()
@@ -33,6 +34,6 @@ public class MeController {
                 .map(Instant::getEpochSecond)
                 .orElse(Long.MAX_VALUE);
 
-        return new UserInfoDto(auth.getName(), email, roles, exp);
+        return new UserInfoDto(auth.getName(), username, email, roles, exp);
     }
 }
